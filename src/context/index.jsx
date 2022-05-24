@@ -1,9 +1,9 @@
 import { API } from "../services";
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 
-export const AuthContext = createContext();
+export const MarvelContext = createContext();
 
-export const AuthProvider = ({ children }) => {
+export const MarvelProvider = ({ children }) => {
   const [hash, setHash] = useState("");
   const [timeStamp, setTimeStamp] = useState("");
   const apiKey = "b20c16f1ac80cb70cecd2ee43e396aaa";
@@ -42,6 +42,8 @@ export const AuthProvider = ({ children }) => {
     GetComics,
     GetCharacters,
   }));
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return (
+    <MarvelContext.Provider value={value}>{children}</MarvelContext.Provider>
+  );
 };
-export const useAuth = () => useContext(AuthContext);
+export const useMarvel = () => useContext(MarvelContext);

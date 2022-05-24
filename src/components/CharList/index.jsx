@@ -1,8 +1,11 @@
-import { useAuth } from "../../context";
+import { useEffect } from "react";
+import { useMarvel } from "../../context";
 
 export const CharList = () => {
-  const { characters, GetCharacters } = useAuth();
-  GetCharacters();
+  const { characters, GetCharacters } = useMarvel();
+  useEffect(() => {
+    GetCharacters();
+  }, []);
   console.log(characters);
 
   return (
