@@ -9,7 +9,7 @@
 
 ## You can
 
-- Search, overview a description for the character, discover series and comics who they appear.
+- Search, overview and description for the character, discover series and comics who they appear.
 
 ## Aplication Features
 
