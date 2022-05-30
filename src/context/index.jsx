@@ -1,53 +1,43 @@
 import { API } from "../services";
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import React from "react";
 
 export const MarvelContext = createContext();
 
 export const MarvelProvider = ({ children }) => {
-  const [hash, setHash] = useState("");
-  const [timeStamp, setTimeStamp] = useState("");
-  const apiKey = "7fda74fc35c2561abc4a43fc02eda15e";
-  const [comics, setComics] = useState({});
-  const [characters, setCharacters] = useState({});
-
-  useEffect(() => {
-    let md5 = require("md5");
-    const generateStamp = Math.floor(Date.now() / 1000);
-    setTimeStamp(generateStamp);
-    setHash(
-      md5(
-        `${generateStamp}f97429388fb6981ed372948b48815a062ae8588b7fda74fc35c2561abc4a43fc02eda15e`
-      )
+  const search = async (name) => {
+    const response = await API.get(
+      `characters?nameStartsWith=${name}&ts=1653595365&apikey=${process.env.REACT_APP_PUBLIC_KEY}&hash=bd86817df6efb607dbea0d8897fecc37&limit=99`
     );
-  }, []);
-
-  const GetCharacters = async (timeStamp, hash) => {
-    const responseChar = await API.get(
-      `characters?ts=${timeStamp}&apikey=${apiKey}&hash=${hash}&limit=60`
-    );
-    setCharacters(responseChar.data.data.results);
-    console.log(responseChar.data.data.results);
+    return response;
   };
 
-  const GetComics = async (timeStamp, hash) => {
-    const responseComics = await API.get(
-      `comics?ts=${timeStamp}&apikey=${apiKey}&hash=${hash}`
+  const getChar = async (id) => {
+    const response = await API.get(
+      `characters/${id}?ts=1653595365&apikey=${process.env.REACT_APP_PUBLIC_KEY}&hash=bd86817df6efb607dbea0d8897fecc37`
     );
-    setComics(responseComics.data.data.results);
+    return response;
   };
 
-  useEffect(() => {
-    if (timeStamp && hash) {
-      GetCharacters(timeStamp, hash);
-      GetComics(timeStamp, hash);
-    }
-  }, [timeStamp, hash]);
+  const getComics = async (id) => {
+    const response = await API.get(
+      `characters/${id}/comics?ts=1653595365&apikey=${process.env.REACT_APP_PUBLIC_KEY}&hash=bd86817df6efb607dbea0d8897fecc37&limit=99`
+    );
+    return response;
+  };
+
+  const getSeries = async (id) => {
+    const response = await API.get(
+      `characters/${id}/series?seriesType=collection&ts=1653595365&apikey=${process.env.REACT_APP_PUBLIC_KEY}&hash=bd86817df6efb607dbea0d8897fecc37&limit=99`
+    );
+    return response;
+  };
 
   const value = useMemo(() => ({
-    comics,
-    characters,
-    GetComics,
-    GetCharacters,
+    search,
+    getComics,
+    getSeries,
+    getChar,
   }));
   return (
     <MarvelContext.Provider value={value}>{children}</MarvelContext.Provider>

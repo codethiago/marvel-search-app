@@ -1,12 +1,15 @@
 import "./App.css";
-import { CharList } from "./components/CharList";
+import React from "react";
+import { Router } from "./routes";
+import { Header } from "./components/header";
+import { Footer } from "./components/footer/index.jsx";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <CharList />
-      </header>
+    <div>
+      <Header />
+      <Router />
+      <Footer />
     </div>
   );
 }
