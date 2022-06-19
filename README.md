@@ -1,6 +1,5 @@
 # ReactJS Marvel Search App
 
-### marvel-search-app
 <a href="marvel-search-app-eight.vercel.app/">DEMO</a>
 =======
 ## Release notes
